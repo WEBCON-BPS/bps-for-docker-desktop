@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  bps-sql:
+    image: "mmbednarz/sqlserver-fts:2022"
+    container_name: bps-sql
+    hostname: bps-sql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@ssw0rd
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./data/sql-data:/var/opt/mssql/data
+    restart: always
+    networks:
+      - bps-network
+
+networks:
+  bps-network:
+    driver: bridge
+    name: bps-network

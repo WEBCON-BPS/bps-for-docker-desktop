@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  bps-shell:
+    image: "oraclelinux:9"
+    container_name: bps-shell
+    hostname: bps-shell
+    networks:
+      - bps-nat
+
+networks:
+  bps-nat:
+    external: true
