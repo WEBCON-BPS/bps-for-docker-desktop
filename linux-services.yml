@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  bps-sql:
+    image: "mmbednarz/sqlserver-fts:2022"
+    container_name: bps-sql
+    hostname: bps-sql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@ssw0rd
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./data/sql-data:/var/opt/mssql/data
+    restart: unless-stopped
+  
+  bps-search:
+    image: webconbps/search:2023.1.2.44
+    container_name: bps-search
+    hostname: bps-search
+    environment:
+      - SOLR_HEAP=2g
+    ports:
+      - "8983:8983"
+    volumes:
+      - ./data/solr-data:/var/solr
+    command: [ "bash", "-c", "/opt/bps-solr/scripts/run-precreate-cores.sh" ]
+    restart: unless-stopped
+  
+  reverse-proxy:
+    container_name: caddy
+    image: caddy
+    restart: unless-stopped
+    volumes:
+     - ./data/caddy-data/data:/data
+     - ./data/caddy-data/self_signed_certs:/etc/caddy/self_signed_certs
+    ports:
+     - 80:80
+     - 443:443
+    command: caddy reverse-proxy --from localhost --to host.docker.internal:8080
