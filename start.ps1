@@ -76,7 +76,7 @@ while ($true) {
         $url = $request.Headers.Location.AbsoluteUri
         Write-Host "Received HTTP Status 302 (Redirect). Following the redirection to $url..."
     } else {
-        Write-Host "Waiting for HTTP Status 200. Current status: $httpStatus"
+        Write-Host "Waiting for HTTP Status 200..."
         Start-Sleep -Seconds $retryIntervalInSeconds
     }
 }
