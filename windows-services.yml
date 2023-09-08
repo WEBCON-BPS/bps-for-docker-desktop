@@ -8,8 +8,8 @@ services:
       - hostname=${COMPUTERNAME},8433
     networks:
       - bps
-    dns:
-      - 192.168.11.90
+#    dns:
+#      - 192.168.11.90
 
   bps-service:
     image: webconbps/service:2023.1.2.44-windowsservercore-ltsc2022
