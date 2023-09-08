@@ -5,7 +5,15 @@ if ($demon  -eq "windows")
     & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
 }
 
-docker compose -f .\linux-services.yml up -d 
+try {
+    docker compose -f .\linux-services.yml up -d 
+}
+catch {
+    Write-Host "Docker compose error occured: $_"
+    ./stop.ps1
+    exit 1
+}
+
 
 & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
 
@@ -44,7 +52,14 @@ while (-not (Test-SqlServerInstance -serverName $serverName -databaseName $datab
 
 Write-Host "SQL Server instance is available. Success!"
 
-docker compose -f .\windows-services.yml up -d
+try {
+    docker compose -f .\windows-services.yml up -d
+}
+catch {
+    Write-Host "Docker compose error occured: $_"
+    ./stop.ps1
+    exit 1
+}
 
 $url = "https://localhost"
 $retryIntervalInSeconds = 3
