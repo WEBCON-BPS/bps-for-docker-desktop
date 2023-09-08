@@ -9,7 +9,7 @@ docker compose -f .\linux-services.yml up -d
 
 & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
 
-$serverName = $env:COMPUTERNAME
+$serverName = "$env:COMPUTERNAME,8433"
 $databaseName = "master"
 $sqlUsername = "sa"
 $sqlPassword = "P@ssw0rd"

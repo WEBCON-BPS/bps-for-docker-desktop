@@ -5,14 +5,18 @@ services:
     container_name: bps-init
     hostname: bps-init
     environment:
-      - hostname=${COMPUTERNAME}
+      - hostname=${COMPUTERNAME},8433
+    networks:
+      - bps
+    dns:
+      - 192.168.11.90
 
   bps-service:
     image: webconbps/service:2023.1.2.44-windowsservercore-ltsc2022
     container_name: bps-service
     hostname: bps-service
     environment:
-      - Configuration__BpsDbConfigRaw=Server=${COMPUTERNAME};Database=BPS_Config;User ID=sa;Password=P@ssw0rd
+      - Configuration__BpsDbConfigRaw=Server=${COMPUTERNAME},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
       - Configuration__ExternalWebService__Host=${COMPUTERNAME}
       - Configuration__ExternalWebService__LicenseServicePort=58002
       - Configuration__ExternalWebService__Port=58003
@@ -30,14 +34,18 @@ services:
     depends_on:
       bps-init:
         condition: service_completed_successfully
+    networks:
+      - bps
+    dns:
+      - 192.168.11.90
 
   bps-portal:
     image: webconbps/portal:2023.1.2.44-windowsservercore-ltsc2022
     container_name: bps-portal
     hostname: bps-portal
     environment:
-      - App__ConfigConnection__Value=Server=${COMPUTERNAME};Database=BPS_Config;User ID=sa;Password=P@ssw0rd
-      - App__LogsConnection__Value=Server=${COMPUTERNAME};Database=BPS_Config;User ID=sa;Password=P@ssw0rd
+      - App__ConfigConnection__Value=Server=${COMPUTERNAME},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
+      - App__LogsConnection__Value=Server=${COMPUTERNAME},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
       - App__IISIntegration=false
       - App__ForceHttpsOnProxy=true
       - App__Kestler__Port=80
@@ -50,3 +58,11 @@ services:
     depends_on:
       bps-init:
         condition: service_completed_successfully
+    networks:
+      - bps
+    dns:
+      - 192.168.11.90
+
+networks:
+  bps:
+    driver: ics
