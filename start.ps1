@@ -1,3 +1,23 @@
+#set dns server list
+$networkInterfaces = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Select-Object Name
+
+$dnsServers = New-Object -TypeName 'System.Collections.ArrayList';
+$dnslist = New-Object -TypeName 'System.Collections.ArrayList';
+
+foreach ($interface in $networkInterfaces) {
+    $dnsServers = Get-DnsClientServerAddress -InterfaceAlias $interface.Name | Where-Object { $_.AddressFamily -eq "2" } 
+    foreach ($item in $dnsServers.ServerAddresses)
+    {
+        $dnslist.Add($item) > $null
+    }
+}
+$dnslist = $dnslist | Sort-Object | Get-Unique
+
+$env:bpsdns1 = $dnslist[0]
+$env:bpsdns2 = $dnslist[1]
+
+#start services
+
 $demon = docker version -f '{{.Server.Os}}'
 
 if ($demon  -eq "windows")
@@ -5,10 +25,11 @@ if ($demon  -eq "windows")
     & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
 }
 
-try {
-    docker compose -f .\linux-services.yml up -d 
-}
-catch {
+
+docker compose -f .\linux-services.yml up -d 
+
+if ($? -ne $true)
+{
     Write-Host "Docker compose error occured: $_"
     ./stop.ps1
     exit 1
@@ -52,11 +73,12 @@ while (-not (Test-SqlServerInstance -serverName $serverName -databaseName $datab
 
 Write-Host "SQL Server instance is available. Success!"
 
-try {
-    docker compose -f .\windows-services.yml up -d
-}
-catch {
-    Write-Host "Docker compose error occured: $_"
+
+docker compose -f .\windows-services.yml up -d
+
+if ($? -ne $true)
+{
+    Write-Host "Docker compose error occured."
     ./stop.ps1
     exit 1
 }
