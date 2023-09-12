@@ -1,4 +1,4 @@
-# BPS for Docker-Desktop
+# BPS for Docker Desktop
 
 bps-for-docker-desktop is a solution that allows automated launch of a local WEBCON BPS instance based on Docker Desktop software.
 
