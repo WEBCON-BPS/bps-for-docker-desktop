@@ -41,5 +41,5 @@ All volumes are mounted in the data directory.
 
 # User accounts
 - sql login `sa`, password `P@ssw0rd`
-- sorl admin `solr`, password `123qweasdZXC`
+- srol admin `solr`, password `123qweasdZXC`
 - BPS Admin password `P@ssw0rd`
