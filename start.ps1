@@ -41,13 +41,6 @@ if ($? -ne $true)
 
 & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
 
-#install certs
-New-Item -ItemType Directory -Path '.\data\local-data\' -Force
-$crt = Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\root.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
-$crt.Thumbprint > '.\data\local-data\root-thumbprint'
-$crt = Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\intermediate.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
-$crt.Thumbprint > '.\data\local-data\intermediate-thumbprint'
-
 $serverName = "$env:hostname,8433"
 $databaseName = "master"
 $sqlUsername = "sa"
@@ -93,6 +86,14 @@ if ($? -ne $true)
     ./stop.ps1
     exit 1
 }
+
+#install certs
+New-Item -ItemType Directory -Path '.\data\local-data\' -Force
+$crt = Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\root.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
+$crt.Thumbprint > '.\data\local-data\root-thumbprint'
+$crt = Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\intermediate.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
+$crt.Thumbprint > '.\data\local-data\intermediate-thumbprint'
+
 
 $url = "https://$env:COMPUTERNAME.local"
 $retryIntervalInSeconds = 3
