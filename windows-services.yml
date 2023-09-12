@@ -5,7 +5,7 @@ services:
     container_name: bps-init
     hostname: bps-init
     environment:
-      - hostname=${COMPUTERNAME},8433
+      - hostname=${hostname}
     networks:
       - bps
     dns:
@@ -17,20 +17,20 @@ services:
     container_name: bps-service
     hostname: bps-service
     environment:
-      - Configuration__BpsDbConfigRaw=Server=${COMPUTERNAME},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
-      - Configuration__ExternalWebService__Host=${COMPUTERNAME}
-      - Configuration__ExternalWebService__LicenseServicePort=58002
-      - Configuration__ExternalWebService__Port=58003
+      - Configuration__BpsDbConfigRaw=Server=${hostname},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
+      - Configuration__ExternalWebService__Host=${hostname}
+      - Configuration__ExternalWebService__LicenseServicePort=8002
+      - Configuration__ExternalWebService__Port=8003
       - Configuration__BpsSelfHost=true
       - Configuration__Init__DoInit=true
-      - Configuration__Init__WebService__LicenseServicePort=58002
-      - Configuration__Init__WebService__Port=58003
+      - Configuration__Init__WebService__LicenseServicePort=8002
+      - Configuration__Init__WebService__Port=8003
       - Configuration__Init__ServiceRoles__LicenseService=true
       - Configuration__Init__ServiceRoles__BasicFeatures=true
       - Configuration__Init__ServiceRoles__SolrIndexing=true
     ports:
-      - "58002:58002"
-      - "58003:58003"
+      - "8002:8002"
+      - "8003:8003"
     restart: unless-stopped
     depends_on:
       bps-init:
@@ -38,15 +38,16 @@ services:
     networks:
       - bps
     dns:
-      - 192.168.11.90
+      - "${bpsdns1}"
+      - "${bpsdns2}"
 
   bps-portal:
     image: webconbps/portal:2023.1.2.44-windowsservercore-ltsc2022
     container_name: bps-portal
     hostname: bps-portal
     environment:
-      - App__ConfigConnection__Value=Server=${COMPUTERNAME},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
-      - App__LogsConnection__Value=Server=${COMPUTERNAME},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
+      - App__ConfigConnection__Value=Server=${hostname},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
+      - App__LogsConnection__Value=Server=${hostname},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
       - App__IISIntegration=false
       - App__ForceHttpsOnProxy=true
       - App__Kestler__Port=80
@@ -62,7 +63,8 @@ services:
     networks:
       - bps
     dns:
-      - 192.168.11.90
+      - "${bpsdns1}"
+      - "${bpsdns2}"
 
 networks:
   bps:

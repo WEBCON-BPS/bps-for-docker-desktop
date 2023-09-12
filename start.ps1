@@ -16,6 +16,9 @@ $dnslist = $dnslist | Sort-Object | Get-Unique
 $env:bpsdns1 = $dnslist[0]
 $env:bpsdns2 = $dnslist[1]
 
+#get full hostname
+$env:hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
+
 #start services
 
 $demon = docker version -f '{{.Server.Os}}'
@@ -38,11 +41,18 @@ if ($? -ne $true)
 
 & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
 
-$serverName = "$env:COMPUTERNAME,8433"
+#install certs
+New-Item -ItemType Directory -Path '.\data\local-data\' -Force
+$crt = Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\root.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
+$crt.Thumbprint > '.\data\local-data\root-thumbprint'
+$crt = Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\intermediate.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
+$crt.Thumbprint > '.\data\local-data\intermediate-thumbprint'
+
+$serverName = "$env:hostname,8433"
 $databaseName = "master"
 $sqlUsername = "sa"
 $sqlPassword = "P@ssw0rd"
-$retryIntervalInSeconds = 2
+$retryIntervalInSeconds = 3
 
 # Function to check if the SQL Server instance is available
 function Test-SqlServerInstance {
@@ -79,11 +89,12 @@ docker compose -f .\windows-services.yml up -d
 if ($? -ne $true)
 {
     Write-Host "Docker compose error occured."
+    Read-Host
     ./stop.ps1
     exit 1
 }
 
-$url = "https://localhost"
+$url = "https://$env:COMPUTERNAME.local"
 $retryIntervalInSeconds = 3
 $maxRedirections = 10  # Maximum number of redirections to follow
 

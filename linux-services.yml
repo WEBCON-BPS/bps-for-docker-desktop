@@ -36,4 +36,4 @@ services:
     ports:
      - 80:80
      - 443:443
-    command: caddy reverse-proxy --from localhost --to host.docker.internal:8080
+    command: caddy reverse-proxy --from ${COMPUTERNAME}.local --to host.docker.internal:8080
