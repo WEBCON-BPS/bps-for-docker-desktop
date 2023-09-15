@@ -8,9 +8,9 @@ services:
       - hostname=${hostname}
     networks:
       - bps
-    dns:
-      - "${bpsdns1}"
-      - "${bpsdns2}"
+    # dns:
+    #   - "${bpsdns1}"
+    #   - "${bpsdns2}"
       
   bps-service:
     image: webconbps/service:2023.1.2.44-windowsservercore-ltsc2022
@@ -37,9 +37,9 @@ services:
         condition: service_completed_successfully
     networks:
       - bps
-    dns:
-      - "${bpsdns1}"
-      - "${bpsdns2}"
+    # dns:
+    #   - "${bpsdns1}"
+    #   - "${bpsdns2}"
 
   bps-portal:
     image: webconbps/portal:2023.1.2.44-windowsservercore-ltsc2022
@@ -62,9 +62,9 @@ services:
         condition: service_completed_successfully
     networks:
       - bps
-    dns:
-      - "${bpsdns1}"
-      - "${bpsdns2}"
+    # dns:
+    #   - "${bpsdns1}"
+    #   - "${bpsdns2}"
 
 networks:
   bps:

@@ -1,23 +1,23 @@
 #set dns server list
-$networkInterfaces = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Select-Object Name
+# $networkInterfaces = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Select-Object Name
 
-$dnsServers = New-Object -TypeName 'System.Collections.ArrayList';
-$dnslist = New-Object -TypeName 'System.Collections.ArrayList';
+# $dnsServers = New-Object -TypeName 'System.Collections.ArrayList';
+# $dnslist = New-Object -TypeName 'System.Collections.ArrayList';
 
-foreach ($interface in $networkInterfaces) {
-    $dnsServers = Get-DnsClientServerAddress -InterfaceAlias $interface.Name | Where-Object { $_.AddressFamily -eq "2" } 
-    foreach ($item in $dnsServers.ServerAddresses)
-    {
-        $dnslist.Add($item) > $null
-    }
-}
-$dnslist = $dnslist | Sort-Object | Get-Unique
+# foreach ($interface in $networkInterfaces) {
+#     $dnsServers = Get-DnsClientServerAddress -InterfaceAlias $interface.Name | Where-Object { $_.AddressFamily -eq "2" } 
+#     foreach ($item in $dnsServers.ServerAddresses)
+#     {
+#         $dnslist.Add($item) > $null
+#     }
+# }
+# $dnslist = $dnslist | Sort-Object | Get-Unique
 
-$env:bpsdns1 = $dnslist[0]
-$env:bpsdns2 = $dnslist[1]
+# $env:bpsdns1 = $dnslist[0]
+# $env:bpsdns2 = $dnslist[1]
 
 #get full hostname
-$env:hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
+$env:hostname = "$env:COMPUTERNAME.local"#[System.Net.Dns]::GetHostByName($env:computerName).HostName
 
 #start services
 
