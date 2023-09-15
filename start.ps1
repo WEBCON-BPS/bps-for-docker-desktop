@@ -1,26 +1,7 @@
-#set dns server list
-# $networkInterfaces = Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Select-Object Name
-
-# $dnsServers = New-Object -TypeName 'System.Collections.ArrayList';
-# $dnslist = New-Object -TypeName 'System.Collections.ArrayList';
-
-# foreach ($interface in $networkInterfaces) {
-#     $dnsServers = Get-DnsClientServerAddress -InterfaceAlias $interface.Name | Where-Object { $_.AddressFamily -eq "2" } 
-#     foreach ($item in $dnsServers.ServerAddresses)
-#     {
-#         $dnslist.Add($item) > $null
-#     }
-# }
-# $dnslist = $dnslist | Sort-Object | Get-Unique
-
-# $env:bpsdns1 = $dnslist[0]
-# $env:bpsdns2 = $dnslist[1]
-
-#get full hostname
-$env:hostname = "$env:COMPUTERNAME.local"#[System.Net.Dns]::GetHostByName($env:computerName).HostName
+#get hostname
+$env:hostname = "$env:COMPUTERNAME.local"
 
 #start services
-
 $demon = docker version -f '{{.Server.Os}}'
 
 if ($demon  -eq "windows")
@@ -76,7 +57,6 @@ while (-not (Test-SqlServerInstance -serverName $serverName -databaseName $datab
 
 Write-Host "SQL Server instance is available. Success!"
 
-
 docker compose -f .\windows-services.yml up -d
 
 if ($? -ne $true)
@@ -88,12 +68,8 @@ if ($? -ne $true)
 }
 
 #install certs
-New-Item -ItemType Directory -Path '.\data\local-data\' -Force
-$crt = Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\root.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
-$crt.Thumbprint > '.\data\local-data\root-thumbprint'
-$crt = Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\intermediate.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
-$crt.Thumbprint > '.\data\local-data\intermediate-thumbprint'
-
+Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\root.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
+Import-Certificate -Filepath '.\data\caddy-data\data\caddy\pki\authorities\local\intermediate.crt' -CertStoreLocation 'cert:\CurrentUser\Root' -Confirm:$false
 
 $url = "https://$env:COMPUTERNAME.local"
 $retryIntervalInSeconds = 3
