@@ -5,19 +5,16 @@ services:
     container_name: bps-init
     hostname: bps-init
     environment:
-      - hostname=${hostname}
+      - hostname=10.5.0.1
     networks:
       - bps
-    # dns:
-    #   - "${bpsdns1}"
-    #   - "${bpsdns2}"
       
   bps-service:
     image: webconbps/service:2023.1.2.44-windowsservercore-ltsc2022
     container_name: bps-service
     hostname: bps-service
     environment:
-      - Configuration__BpsDbConfigRaw=Server=${hostname},8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
+      - Configuration__BpsDbConfigRaw=Server=10.5.0.1,8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
       - Configuration__ExternalWebService__Host=${hostname}
       - Configuration__ExternalWebService__LicenseServicePort=8002
       - Configuration__ExternalWebService__Port=8003
@@ -37,9 +34,6 @@ services:
         condition: service_completed_successfully
     networks:
       - bps
-    # dns:
-    #   - "${bpsdns1}"
-    #   - "${bpsdns2}"
 
   bps-portal:
     image: webconbps/portal:2023.1.2.44-windowsservercore-ltsc2022
@@ -62,10 +56,11 @@ services:
         condition: service_completed_successfully
     networks:
       - bps
-    # dns:
-    #   - "${bpsdns1}"
-    #   - "${bpsdns2}"
 
 networks:
   bps:
-    driver: ics
+    driver: nat
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
