@@ -1,4 +1,4 @@
-# BPS for Docker-Desktop
+# BPS for Docker Desktop
 
 bps-for-docker-desktop is a solution that allows automated launch of a local WEBCON BPS instance based on Docker Desktop software.
 
@@ -22,23 +22,24 @@ bps-for-docker-desktop is a solution that allows automated launch of a local WEB
     **IMPORTANT!** 
 
     During installation, a message may be displayed asking you to accept the installation of certificates. This is necessary to run BPS Studio.
+   
     ---
 
-3. Once launched, the portal page will launch in your default browser.
+4. Once launched, the portal page will launch in your default browser.
 The BPS Admin password is: `P@ssw0rd`
 
 # Port reservations
 All services are available directly on the host, ports used:
-- 8433 TCP for SQL Server
-- 8983 TCP for SOLR
-- 8080 TCP for BPS Portal
-- 80 TCP and 443 TCP for Caddy reverse proxy
-- 8002 TCP and 8003 TCP for BPS Service
+- `8433` TCP for SQL Server
+- `8983` TCP for SOLR
+- `8080` TCP for BPS Portal
+- `80` TCP and `443` TCP for Caddy reverse proxy
+- `8002` TCP and `8003` TCP for BPS Service
 
 # Volumes
 All volumes are mounted in the data directory.
 
 # User accounts
 - sql login `sa`, password `P@ssw0rd`
-- sorl admin `solr`, password `123qweasdZXC`
+- srol admin `solr`, password `123qweasdZXC`
 - BPS Admin password `P@ssw0rd`
