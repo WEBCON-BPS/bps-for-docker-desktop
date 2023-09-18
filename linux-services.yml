@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   bps-sql:
-    image: "mmbednarz/sqlserver-fts:2022"
+    image: "webconbps/sqlserver:2022"
     container_name: bps-sql
     hostname: bps-sql
     environment:

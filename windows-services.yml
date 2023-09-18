@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   bps-init:
-    image: mmbednarz/bpsinit:2023.1.2.44
+    image: webconbps/init:2023.1.2.44-windowsservercore-ltsc2022
     container_name: bps-init
     hostname: bps-init
     environment:
