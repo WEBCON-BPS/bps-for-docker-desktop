@@ -15,7 +15,7 @@ services:
     hostname: bps-service
     environment:
       - Configuration__BpsDbConfigRaw=Server=10.5.0.1,8433;Database=BPS_Config;User ID=sa;Password=P@ssw0rd
-      - Configuration__ExternalWebService__Host=${hostname}
+      - Configuration__ExternalWebService__Host=bps-service
       - Configuration__ExternalWebService__LicenseServicePort=8002
       - Configuration__ExternalWebService__Port=8003
       - Configuration__BpsSelfHost=true
