@@ -6,6 +6,7 @@ services:
     hostname: bps-init
     environment:
       - hostname=10.5.0.1
+      - bpshostname=${hostname}
     networks:
       - bps
       
