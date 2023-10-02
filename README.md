@@ -9,7 +9,7 @@ bps-for-docker-desktop is a solution that allows automated launch of a local WEB
 
 # Quick start:
 1. Pull repo.
-`git clone https://github.com/mmbednarz/bps-docker-desktop.git`
+`git clone https://github.com/webcon-bps/bps-docker-desktop.git`
 
 2. Start BPS.
 `cd .\bps-docker-desktop\`
