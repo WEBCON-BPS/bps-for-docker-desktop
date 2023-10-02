@@ -25,7 +25,7 @@ bps-for-docker-desktop is a solution that allows automated launch of a local WEB
    
     ---
 
-4. Once launched, the portal page will launch in your default browser.
+3. Once launched, the portal page will launch in your default browser.
 The BPS Admin password is: `P@ssw0rd`
 
 # Port reservations
