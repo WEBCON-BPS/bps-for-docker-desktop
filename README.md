@@ -9,7 +9,7 @@ bps-for-docker-desktop is a solution that allows automated launch of a local WEB
 
 # Quick start:
 1. Pull repo.
-`git clone https://github.com/mmbednarz/bps-docker-desktop.git`
+`git clone https://github.com/webcon-bps/bps-docker-desktop.git`
 
 2. Start BPS.
 `cd .\bps-docker-desktop\`
@@ -25,7 +25,7 @@ bps-for-docker-desktop is a solution that allows automated launch of a local WEB
    
     ---
 
-4. Once launched, the portal page will launch in your default browser.
+3. Once launched, the portal page will launch in your default browser.
 The BPS Admin password is: `P@ssw0rd`
 
 # Port reservations
