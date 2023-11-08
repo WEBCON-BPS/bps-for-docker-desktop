@@ -2,12 +2,14 @@ $demon = docker version -f '{{.Server.Os}}'
 
 if ($demon  -eq "windows")
 {
-    & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
+#    & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
+    docker context use desktop-linux
 }
 
 docker compose -f .\linux-services.yml down
 
-& $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
+#& $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
+docker context use desktop-windows
 
 docker compose -f .\windows-services.yml down
 

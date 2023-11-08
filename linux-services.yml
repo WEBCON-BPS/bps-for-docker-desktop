@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
   
   bps-search:
-    image: webconbps/search:2023.1.2.44
+    image: webconbps/search:2023.1.2.99
     container_name: bps-search
     hostname: bps-search
     environment:
