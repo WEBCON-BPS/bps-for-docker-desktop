@@ -9,23 +9,25 @@ bps-for-docker-desktop is a solution that allows automated launch of a local WEB
 
 # Quick start:
 1. Pull repo.
-`git clone https://github.com/webcon-bps/bps-docker-desktop.git`
-
-2. Start BPS.
-`cd .\bps-docker-desktop\`
-`./start.ps1`
-
-    Several linux and windows containers will be launched: SQL Server, SOLR, Caddy, bps-init, bps-portal, bps-service.
-    The first run time is approximately 30 minutes (due to the need to download docker images and initialize the BPS databases), subsequent runs are approximately 2 minutes.
-
-    ---
-    **IMPORTANT!** 
-
-    During installation, a message may be displayed asking you to accept the installation of certificates. This is necessary to run BPS Studio.
    
-    ---
+        git clone https://github.com/WEBCON-BPS/bps-for-docker-desktop.git
 
-3. Once launched, the portal page will launch in your default browser.
+3. Start BPS.
+   
+        cd .\bps-docker-desktop\
+   
+        ./start.ps1
+
+   Several linux and windows containers will be launched: SQL Server, SOLR, Caddy, bps-init, bps-portal, bps-service.
+   The first run time is approximately 30 minutes (due to the need to download docker images and initialize the BPS databases), subsequent runs are approximately 2 minutes.
+    
+         
+    
+        During installation, a message may be displayed asking you to accept the installation of certificates. This is necessary to run BPS Studio.
+       
+        
+
+5. Once launched, the portal page will launch in your default browser.
 The BPS Admin password is: `P@ssw0rd`
 
 # Port reservations
