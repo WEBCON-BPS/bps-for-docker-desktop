@@ -14,7 +14,7 @@ bps-for-docker-desktop is a solution that allows automated launch of a local WEB
 
 3. Start BPS.
    
-        cd .\bps-docker-desktop\
+        cd .\bps-for-docker-desktop\
    
         ./start.ps1
 
