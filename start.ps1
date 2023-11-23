@@ -6,7 +6,7 @@ $demon = docker version -f '{{.Server.Os}}'
 
 if ($demon  -eq "windows")
 {
-#    & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
+    & $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
     docker context use desktop-linux
 }
 
@@ -21,7 +21,7 @@ if ($? -ne $true)
 }
 
 docker context use desktop-windows
-#& $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
+& $Env:ProgramFiles\Docker\Docker\DockerCli.exe -SwitchDaemon
 
 $serverName = "$env:hostname,8433"
 $databaseName = "master"
